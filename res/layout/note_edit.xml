@@ -68,7 +68,16 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical">
-
+             
+             <ImageButton
+               android:id="@+id/add_img_btn"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="7dp"
+             android:layout_marginTop="600dp"
+             android:layout_marginBottom="7dp"
+             android:src="@android:drawable/ic_menu_gallery" />
+             
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="7dip"
