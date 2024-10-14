@@ -149,17 +149,45 @@ public class NoteEditActivity extends Activity implements OnClickListener,
     private String mUserQuery;
     private Pattern mPattern;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.note_edit);
+    // @Override
+    // protected void onCreate(Bundle savedInstanceState) {
+    //     super.onCreate(savedInstanceState);
+    //     this.setContentView(R.layout.note_edit);
 
-        if (savedInstanceState == null && !initActivityState(getIntent())) {
-            finish();
-            return;
+    //     if (savedInstanceState == null && !initActivityState(getIntent())) {
+    //         finish();
+    //         return;
+    //     }
+    //     initResources();
+    // }
+        private final int PHOTO_REQUEST=1;
+ 
+        @Override
+ 
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            this.setContentView(R.layout.note_edit);
+ 
+            if (savedInstanceState == null && !initActivityState(getIntent())) {
+                finish();
+                return;
+            }
+            initResources();
+ 
+    //根据id获取添加图片按钮
+    final ImageButton add_img_btn = (ImageButton) findViewById(R.id.add_img_btn);
+    //为点击图片按钮设置监听器
+    add_img_btn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "onClick: click add image button");
+            Intent loadImage = new Intent(Intent.ACTION_GET_CONTENT);
+            loadImage.addCategory(Intent.CATEGORY_OPENABLE);
+            loadImage.setType("image/*");
+            startActivityForResult(loadImage, PHOTO_REQUEST);
         }
-        initResources();
-    }
+    });
+}
 
     /**
      * Current activity may be killed when the memory is low. Once it is killed, for another time
