@@ -149,45 +149,35 @@ public class NoteEditActivity extends Activity implements OnClickListener,
     private String mUserQuery;
     private Pattern mPattern;
 
-    // @Override
-    // protected void onCreate(Bundle savedInstanceState) {
-    //     super.onCreate(savedInstanceState);
-    //     this.setContentView(R.layout.note_edit);
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         this.setContentView(R.layout.note_edit);
 
-    //     if (savedInstanceState == null && !initActivityState(getIntent())) {
-    //         finish();
-    //         return;
-    //     }
-    //     initResources();
-    // }
-        private final int PHOTO_REQUEST=1;
- 
+         if (savedInstanceState == null && !initActivityState(getIntent())) {
+             finish();
+             return;
+         }
+         initResources();
+     }
+         
+DatePicker datePicker = findViewById(R.id.datePicker);
+        //找到一个datePicker的组件
+        //初始化组件
+        //创建一个类内部实现接口，用于监听
+datePicker.init(calendar.getYear(), calendar.getMonth(), calendar.getDayOfMonth(), new DatePicker.OnDateChangedListener() {
+    //当datePicker中的日期发生变化时，下面代码会被调用
         @Override
- 
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            this.setContentView(R.layout.note_edit);
- 
-            if (savedInstanceState == null && !initActivityState(getIntent())) {
-                finish();
-                return;
-            }
-            initResources();
- 
-    //根据id获取添加图片按钮
-    final ImageButton add_img_btn = (ImageButton) findViewById(R.id.add_img_btn);
-    //为点击图片按钮设置监听器
-    add_img_btn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Log.d(TAG, "onClick: click add image button");
-            Intent loadImage = new Intent(Intent.ACTION_GET_CONTENT);
-            loadImage.addCategory(Intent.CATEGORY_OPENABLE);
-            loadImage.setType("image/*");
-            startActivityForResult(loadImage, PHOTO_REQUEST);
-        }
-    });
-}
+    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        Calendar newDate = Calendar.getInstance();
+        newDate.set(year, monthOfYear, dayOfMonth);
+        long dueDateMillis = newDate.getTimeInMillis();
+        // 将截止日期存储到数据库
+        ContentValues values = new ContentValues();
+        values.put(Notes.NoteColumns.DUE_DATE, dueDateMillis);
+        getContentResolver().update(NoteProvider.CONTENT_URI, values, NoteProvider.NoteColumns.ID + "=?", new String[]{String.valueOf(noteId)});
+    }
+});
 
     /**
      * Current activity may be killed when the memory is low. Once it is killed, for another time
