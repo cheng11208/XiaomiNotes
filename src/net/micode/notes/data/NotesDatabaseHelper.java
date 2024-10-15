@@ -63,6 +63,19 @@ public class NotesDatabaseHelper extends SQLiteOpenHelper {
             NoteColumns.VERSION + " INTEGER NOT NULL DEFAULT 0" +
         ")";
 
+
+    
+    //首先需要修改数据库结构，添加一个新的列来存储截止日期，我称它为deadline_date    
+    public static final String DUE_DATE = "deadline_date";
+
+    private static final String TABLE_NOTES_CREATE =
+        "CREATE TABLE " + TABLE_NOTES + " (" +
+        NoteColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        NoteColumns.DEADLINE_DATE + " INTEGER" +
+        ");";
+
+
+
     private static final String CREATE_DATA_TABLE_SQL =
         "CREATE TABLE " + TABLE.DATA + "(" +
             DataColumns.ID + " INTEGER PRIMARY KEY," +
